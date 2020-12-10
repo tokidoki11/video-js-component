@@ -1,36 +1,46 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        video-js
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+   <video
+    ref="videoPlayer"
+    class="video-js vjs-show-big-play-button-on-pause vjs-big-play-centered"
+    muted
+  />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import videojs, { VideoJsPlayerOptions } from 'video.js'
 
-export default Vue.extend({})
+const videoConfig = {
+  autoplay: true,
+  controls: true,
+  html5: {
+    vhs: {
+      allowSeeksWithinUnsafeLiveWindow: true,
+      enableLowInitialPlaylist: true,
+      overrideNative: false,
+      smoothQualityChange: true,
+      withCredentials: false
+    }
+  },
+  inactivityTimeout: 0,
+  sources: [{
+    src: "https://live.unified-streaming.com/scte35/scte35.isml/.m3u8",
+    type: 'application/x-mpegURL'
+  }],
+  liveui: true,
+  muted: true,
+  preload: 'auto',
+  width:720
+} as VideoJsPlayerOptions
+
+export default Vue.extend({
+  mounted(){
+    const videoPlayer = this.$refs["videoPlayer"]
+    videojs(videoPlayer, videoConfig)
+  }
+})
 </script>
 
 <style>
@@ -41,35 +51,5 @@ export default Vue.extend({})
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
