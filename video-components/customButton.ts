@@ -18,7 +18,7 @@ export default class CustomButton extends Button {
     options: CustomButtonOption
   ) {
     super(player, options)
-    this.controlText(player.localize('expand'))
+    this.controlText("My Custom Button")
     this.el().innerHTML = iconSVG
   }
 
